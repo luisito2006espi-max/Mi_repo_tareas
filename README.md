@@ -1,2 +1,2 @@
-# Mi_repo_tareas
-Aqui agregare mis tareas de la universidad 
+# proyect_1
+Trabajos académicos primer semestre
