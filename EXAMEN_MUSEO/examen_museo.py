@@ -22,7 +22,7 @@ class ListaEnlazada:
     def mostrar(self):
         actual = self.cabeza
         while actual is not None:
-            print(f"Código: {actual.codigo} | Descripción: {actual.descripcion}")
+            print(f"[{actual.codigo}] {actual.descripcion}")
             actual = actual.siguiente
 
 
@@ -62,54 +62,50 @@ class Cola:
 # Pruebas y Reto Individual
 # ==========================================
 if __name__ == "__main__":
-    # 0. Datos de prueba asignados
-    datos_museo = [
+    # Datos de prueba asignados
+    datos_prueba = [
         ("MU01", "Máscara"),
         ("MU02", "Cerámica"),
         ("MU03", "Tejido")
     ]
 
-    # Instanciamos las estructuras
-    inventario_lista = ListaEnlazada()
-    solicitudes_cola = Cola()
-    historial_pila = Pila()
+    # Inicialización de las estructuras
+    lista_museo = ListaEnlazada()
+    pila_museo = Pila()
+    cola_museo = Cola()
 
-    # Registramos los elementos en las 3 estructuras
-    for cod, desc in datos_museo:
-        inventario_lista.agregar(cod, desc)
-        solicitudes_cola.encolar(f"{cod} - {desc}")
-        historial_pila.apilar(f"{cod} - {desc}")
+    # Registro de elementos en las tres estructuras
+    for codigo, descripcion in datos_prueba:
+        elemento_formateado = f"{codigo}: {descripcion}"
+        lista_museo.agregar(codigo, descripcion)
+        pila_museo.apilar(elemento_formateado)
+        cola_museo.encolar(elemento_formateado)
 
-    # 1. Mostrar la lista enlazada (inventario secuencial)
-    print("--- 1. LISTA ENLAZADA (Elementos Registrados) ---")
-    inventario_lista.mostrar()
+    # 1. Mostrar Lista Enlazada
+    print("--- LISTA ENLAZADA (Inventario) ---")
+    lista_museo.mostrar()
 
-    # 2. Reto individual: Comprobar que el último nodo apunte a None
-    print("\n--- 2. RETO INDIVIDUAL: Puntero del último nodo ---")
-    if inventario_lista.cabeza is not None:
-        actual = inventario_lista.cabeza
-        # Recorremos hasta llegar exactamente al último nodo
+    # 2. Demostración Pila (LIFO)
+    print("\n--- PILA (LIFO: Último en entrar, Primero en salir) ---")
+    elemento = pila_museo.desapilar()
+    while elemento is not None:
+        print(f"Desapilando: {elemento}")
+        elemento = pila_museo.desapilar()
+
+    # 3. Demostración Cola (FIFO)
+    print("\n--- COLA (FIFO: Primero en entrar, Primero en salir) ---")
+    elemento = cola_museo.desencolar()
+    while elemento is not None:
+        print(f"Desencolando: {elemento}")
+        elemento = cola_museo.desencolar()
+
+    # 4. Reto individual: Comprobar que el último nodo apunte a None
+    print("\n--- RETO INDIVIDUAL ---")
+    if lista_museo.cabeza is not None:
+        actual = lista_museo.cabeza
         while actual.siguiente is not None:
             actual = actual.siguiente
 
-        es_none = (actual.siguiente is None)
-        print(f"El último elemento insertado es: {actual.codigo}")
-        print(f"¿El puntero 'siguiente' del último nodo es None?: {es_none}")
-    else:
-        print("La lista está vacía.")
-
-    # 3. Prueba LIFO: Desapilar de la Pila (Último en entrar, Primero en salir)
-    print("\n--- 3. PRUEBA DE PILA (LIFO) ---")
-    item_pila = historial_pila.desapilar()
-    while item_pila is not None:
-        print(f"Desapilando: {item_pila}")
-        item_pila = historial_pila.desapilar()
-    print("Estado: La pila está vacía.")
-
-    # 4. Prueba FIFO: Desencolar de la Cola (Primero en entrar, Primero en salir)
-    print("\n--- 4. PRUEBA DE COLA (FIFO) ---")
-    item_cola = solicitudes_cola.desencolar()
-    while item_cola is not None:
-        print(f"Atendiendo solicitud: {item_cola}")
-        item_cola = solicitudes_cola.desencolar()
-    print("Estado: La cola está vacía.")
+        apunta_a_none = actual.siguiente is None
+        print(f"Último nodo encontrado: [{actual.codigo}] {actual.descripcion}")
+        print(f"¿El puntero 'siguiente' del último nodo es None?: {apunta_a_none}")
